@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GEOGRAPHY</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif; /* Standard font */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: transparent; /* Fully transparent background */
+            color: black; /* Standard text color */
+            text-align: center;
+        }
+
+        #quiz-container {
+            background-color: transparent; /* Fully transparent container */
+            padding: 20px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        #logo {
+            width: 150px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .question {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .answer {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: white; /* Change the answer color to white */
+        }
+
+        #next-button {
+            background-color: white; /* Change background color to white */
+            color: black; /* Change text color to black for visibility */
+            border: 2px solid #ff9900; /* Optional: Add a border for better visibility */
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease-in-out;
+        }
+
+        #next-button:hover {
+            background-color: #ffcc00; /* Change hover color for better effect */
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .fadeOut {
+            animation: fadeOut 0.5s forwards;
+        }
+
+        .fadeIn {
+            animation: fadeIn 0.5s forwards;
+        }
+    </style>
+</head>
+<body>
+
+<div id="quiz-container">
+    <img id="logo" src="https://i.imgur.com/cyZ0Z21.png" alt="George Michael Logo">
+    <h1>GEOGRAPHY</h1>
+    <div id="question-container">
+        <div class="question" id="question">Loading question...</div>
+        <div class="answer" id="answer">Loading answer...</div>
+        <button id="next-button" onclick="nextQuestion()">Next Question</button>
+    </div>
+</div>
+
+<script>
+    // Question and answers data
+    const quizData = [
+        { question: 'Which country has the longest coastline in the world?', answer: 'Canada' },
+        { question: 'What is the capital of Malta?', answer: 'Valletta' },
+        { question: 'Which country is the newest in the world to be recognised by the UN?', answer: 'South Sudan (2011)' },
+        { question: 'In which UK city would you find the River Clyde?', answer: 'Glasgow' },
+        { question: 'What is the oldest recorded town in the UK?', answer: 'Colchester' },
+        { question: 'If you travelled to the city of Volgograd, which country would you be in?', answer: 'Russia' },
+        { question: 'What is the name of the largest river to flow through Paris?', answer: 'The Seine' },
+        { question: 'What did Ceylon change its name to in 1972?', answer: 'Sri Lanka' },
+        { question: 'What is the most populous city in the US state of Illinois?', answer: 'Chicago' },
+        { question: 'What is the highest mountain in Britain?', answer: 'Ben Nevis' },
+        { question: 'The world\'s first national park was established in 1872 in which country? A bonus point for the name of the park…', answer: 'USA, Yellowstone' },
+        { question: 'What is the capital of Peru?', answer: 'Lima' },
+        { question: 'Mount Vesuvius casts a shadow over which modern Italian city?', answer: 'Naples' },
+        { question: 'There are three US states with just four letters in their name: can you name them?', answer: 'Utah, Iowa, Ohio' },
+        { question: 'What is the currency of Sweden?', answer: 'Swedish Krona' },
+        { question: 'To which country do the Canary Islands belong?', answer: 'Spain' },
+        { question: 'What is the capital of Canada?', answer: 'Ottawa' },
+        { question: 'How many states are there in Australia?', answer: 'Six – New South Wales, Victoria, Queensland, Western Australia, Tasmania, South Australia' },
+        { question: 'Which African country has the largest population?', answer: 'Nigeria (more than 211 million)' },
+        { question: 'Constantinople and Byzantium are former names of which major city?', answer: 'Istanbul' },
+        { question: 'What is the longest river in the UK?', answer: 'River Severn' },
+        { question: 'How many boroughs are there in New York City?', answer: 'Five – The Bronx, Brooklyn, Manhattan, Queens, and Staten Island' },
+        { question: 'In which city would you find La Sagrada Familia?', answer: 'Barcelona' },
+        { question: 'What is the largest desert in the world?', answer: 'Antarctica' },
+        { question: 'What is the highest peak in Africa?', answer: 'Mount Kilimanjaro' },
+        { question: 'In which US state would you find Fort Knox?', answer: 'Kentucky' },
+        { question: 'The Strait of Gibraltar separates the Iberian Peninsula from which African country?', answer: 'Morocco' },
+        { question: 'Which London Underground line is represented as green on the tube map?', answer: 'The District Line' },
+        { question: 'In which European city would you find Manneken Pis – a statue of a small boy urinating into a fountain?', answer: 'Brussels' },
+        { question: 'How many countries still have the shilling as currency?', answer: 'Four – Kenya, Uganda, Tanzania, and Somalia' },
+        { question: 'What is the name of the microstate located between Spain and France?', answer: 'Andorra' },
+        { question: 'On the London Tube network, which is the only station to begin with the letter \'I\'?', answer: 'Ickenham' },
+        { question: 'To the nearest billion, how large is the world\'s population?', answer: '8 billion (We are believed to have reached this point in November)' },
+        { question: 'Dracula famously lived in the historical region of Transylvania - but in what country would you now find his castle?', answer: 'Romania' },
+        { question: 'Which planet is considered to be Earth\'s closest neighbour?', answer: 'Mercury' },
+        { question: 'Which country has the most castles in the world?', answer: 'Germany' },
+        { question: 'What is the biggest island in the world?', answer: 'Greenland' },
+        { question: 'What is the capital of Estonia?', answer: 'Tallinn' },
+        { question: 'In which country would you find Machu Picchu?', answer: 'Peru' },
+        { question: 'Which animal appears on the flag of Sri Lanka?', answer: 'Lion' },
+        { question: 'Which European country uses .es at the end of their internet addresses?', answer: 'Spain' },
+        { question: 'Which city currently has the highest population in the world?', answer: 'Tokyo' },
+        { question: 'Which three countries does Mexico share a land border with?', answer: 'USA, Belize, and Guatemala' },
+        { question: 'Astana is the capital city of which country?', answer: 'Kazakhstan' },
+        { question: 'What percentage of the River Nile is located in Egypt?', answer: '22 per cent' },
+        { question: 'Which continent is in all four hemispheres?', answer: 'Africa' },
+        { question: 'Which country has the most pyramids in the world?', answer: 'Sudan' },
+        { question: 'How many large islands make up Hawaii?', answer: 'Eight' },
+        { question: 'In which US state would you find Harvard University?', answer: 'Massachusetts' },
+        { question: 'Which river flows through Glasgow?', answer: 'River Clyde' }
+    ];
+
+    let currentQuestionIndex = 0;
+    let usedQuestions = [];
+    
+    // Shuffle the questions in random order
+    function shuffleQuestions() {
+        usedQuestions = [];
+        const shuffledData = quizData.sort(() => Math.random() - 0.5);
+        return shuffledData;
+    }
+
+    let shuffledQuizData = shuffleQuestions();
+
+    function showQuestion() {
+        const questionContainer = document.getElementById("question");
+        const answerContainer = document.getElementById("answer");
+
+        if (currentQuestionIndex < shuffledQuizData.length) {
+            questionContainer.innerText = shuffledQuizData[currentQuestionIndex].question;
+            answerContainer.innerText = shuffledQuizData[currentQuestionIndex].answer;
+
+            questionContainer.classList.remove('fadeOut');
+            answerContainer.classList.remove('fadeOut');
+
+            questionContainer.classList.add('fadeIn');
+            answerContainer.classList.add('fadeIn');
+        }
+    }
+
+    function nextQuestion() {
+        const questionContainer = document.getElementById("question");
+        const answerContainer = document.getElementById("answer");
+
+        currentQuestionIndex++;
+        
+        questionContainer.classList.remove('fadeIn');
+        answerContainer.classList.remove('fadeIn');
+
+        questionContainer.classList.add('fadeOut');
+        answerContainer.classList.add('fadeOut');
+
+        setTimeout(() => {
+            if (currentQuestionIndex < shuffledQuizData.length) {
+                showQuestion();
+            } else {
+                // Reset the quiz
+                currentQuestionIndex = 0;
+                shuffledQuizData = shuffleQuestions(); // Reshuffle questions
+                showQuestion(); // Show the first question again
+            }
+        }, 500);
+    }
+
+    // Show the first question on page load
+    showQuestion();
+</script>
+
+</body>
+</html>
